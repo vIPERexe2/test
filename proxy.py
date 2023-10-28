@@ -1,4 +1,21 @@
-proxy_list = [
+import requests
+
+def connect_to_proxy(proxy):
+    proxies = {
+        'http': f'http://{proxy}',
+        'https': f'http://{proxy}'
+    }
+    try:
+        response = requests.get('https://www.example.com', proxies=proxies)
+        if response.status_code == 200:
+            print(f"Connected to proxy: {proxy}")
+        else:
+            print(f"Failed to connect to proxy: {proxy}")
+    except requests.exceptions.RequestException as e:
+        print(f"Failed to connect to proxy: {proxy}")
+        print(f"Error: {str(e)}")
+
+proxies = [
     "138.2.61.140:88",
     "123.182.58.221:8089",
     "185.189.199.75:23500",
@@ -13,18 +30,5 @@ proxy_list = [
     "177.185.92.193:3128"
 ]
 
-def connect_to_proxy(proxy):
-    # Code to connect to the proxy
-    connection = connect_to_proxy(proxy)
-
-
-def make_proxy_multi_terminal(proxy_list):
-    for proxy in proxy_list:
-        try:
-            connect_to_proxy(proxy)
-            print(f"Connected to proxy: {proxy}")
-        except Exception as e:
-            print(f"Failed to connect to proxy: {proxy}")
-            print(f"Error: {str(e)}")
-
-make_proxy_multi_terminal(proxy_list)
+for proxy in proxies:
+    connect_to_proxy(proxy)
