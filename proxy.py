@@ -26,3 +26,9 @@ def make_network_request(url):
         except requests.exceptions.RequestException as e:
             print(f"Failed to make a request using proxy {proxy}: {e}")
     raise Exception("Failed to make a successful request using any proxy server.")
+
+# Example usage
+url = "https://example.com"
+response = make_network_request(url)
+print(response.text)
+
