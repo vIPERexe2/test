@@ -1,6 +1,6 @@
 import requests
 
-proxy_servers = [
+proxies = [
     {"address": "138.2.61.140", "port": 88},
     {"address": "123.182.58.221", "port": 8089},
     {"address": "185.189.199.75", "port": 23500},
@@ -17,18 +17,12 @@ proxy_servers = [
 ]
 
 def make_network_request(url):
-    for proxy_server in proxy_servers:
-        proxy = f"{proxy_server['address']}:{proxy_server['port']}"
+    for proxy in proxies:
+        proxy_address = f"{proxy['address']}:{proxy['port']}"
         try:
-            response = requests.get(url, proxies={"http": proxy, "https": proxy})
+            response = requests.get(url, proxies={"http": proxy_address, "https": proxy_address})
             response.raise_for_status()  # Raise an exception if the request was unsuccessful
             return response
         except requests.exceptions.RequestException as e:
-            print(f"Failed to make a request using proxy {proxy}: {e}")
+            print(f"Failed to make a request using proxy {proxy_address}: {e}")
     raise Exception("Failed to make a successful request using any proxy server.")
-
-# Example usage
-url = "https://example.com"
-response = make_network_request(url)
-print(response.text)
-
