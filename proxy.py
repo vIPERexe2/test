@@ -15,7 +15,8 @@ proxy_list = [
 
 def connect_to_proxy(proxy):
     # Code to connect to the proxy
-    pass
+    connection = connect_to_proxy(proxy)
+
 
 def make_proxy_multi_terminal(proxy_list):
     for proxy in proxy_list:
