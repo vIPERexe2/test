@@ -5,7 +5,7 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 
 # Set up the browser
-browser = webdriver.Chrome()
+browser = system/app/Chrome/Chrome.apk()
 
 # Open the Google website
 browser.get('https://accounts.google.com/signup/v2/webcreateaccount?hl=en&flowName=GlifWebSignIn&flowEntry=SignUp')
