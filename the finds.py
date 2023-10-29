@@ -4,9 +4,8 @@ import time
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 
-# Define the browser
-chrome_driver_path = 'system/app/Chrome/Chrome.apk'  # Replace with the actual path to the Chrome driver
-browser = webdriver.Chrome(executable_path=chrome_driver_path)
+# Set up the browser
+browser = webdriver.Chrome()
 
 # Open the Google website
 browser.get('https://accounts.google.com/signup/v2/webcreateaccount?hl=en&flowName=GlifWebSignIn&flowEntry=SignUp')
