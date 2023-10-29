@@ -4,87 +4,87 @@ import time
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 
-# Määritä selain
+# Define the browser
 browser = webdriver.Chrome()
 
-# Avaa Google-sivusto
+# Open the Google website
 browser.get('https://accounts.google.com/signup/v2/webcreateaccount?hl=en&flowName=GlifWebSignIn&flowEntry=SignUp')
 
-# Syötä haluttu määrä sähköpostiosoitteita
-email_count = int(input("Kuinka monta sähköpostiosoitetta haluat luoda? "))
+# Enter the desired number of email addresses
+email_count = int(input("How many email addresses do you want to create? "))
 
 for i in range(email_count):
-    # Syötä etunimi
+    # Enter the first name
     first_name = browser.find_element_by_name('firstName')
     first_name.send_keys(''.join(random.choices(string.ascii_lowercase, k=5)))
     
-    # Syötä sukunimi
+    # Enter the last name
     last_name = browser.find_element_by_name('lastName')
     last_name.send_keys(''.join(random.choices(string.ascii_lowercase, k=5)))
     
-    # Syötä käyttäjänimi
+    # Enter the username
     username = browser.find_element_by_name('Username')
     username.send_keys(''.join(random.choices(string.ascii_lowercase, k=5)))
     
-    # Syötä salasana
+    # Enter the password
     password = browser.find_element_by_name('Passwd')
     password.send_keys(''.join(random.choices(string.ascii_letters + string.digits, k=8)))
     
-    # Syötä salasana uudelleen
+    # Confirm the password
     confirm_password = browser.find_element_by_name('ConfirmPasswd')
     confirm_password.send_keys(password.get_attribute('value'))
     
-    # Paina "Seuraava" -painiketta
+    # Click the "Next" button
     next_button = browser.find_element_by_xpath('//*[@id="accountDetailsNext"]/div/button/span')
     next_button.click()
     
-    # Odota 2 sekuntia
+    # Wait for 2 seconds
     time.sleep(2)
     
-    # Paina "Vahvista puhelinnumero" -painiketta
+    # Click the "Verify phone number" button
     phone_button = browser.find_element_by_xpath('//*[@id="view_container"]/form/div[2]/div/div[1]/div[2]/div[2]/div/div[1]/div/div/button/span')
     phone_button.click()
     
-    # Odota 2 sekuntia
+    # Wait for 2 seconds
     time.sleep(2)
     
-    # Paina "Seuraava" -painiketta
+    # Click the "Next" button
     next_button2 = browser.find_element_by_xpath('//*[@id="view_container"]/form/div[2]/div/div[1]/div[2]/div[2]/div/div[2]/div/div/button/span')
     next_button2.click()
     
-    # Odota 2 sekuntia
+    # Wait for 2 seconds
     time.sleep(2)
     
-    # Paina "Seuraava" -painiketta
+    # Click the "Next" button
     next_button3 = browser.find_element_by_xpath('//*[@id="view_container"]/form/div[2]/div/div[1]/div[2]/div[2]/div/div[2]/div/div/button/span')
     next_button3.click()
     
-    # Odota 2 sekuntia
+    # Wait for 2 seconds
     time.sleep(2)
     
-    # Paina "Hyväksy" -painiketta
+    # Click the "Accept" button
     accept_button = browser.find_element_by_xpath('//*[@id="view_container"]/form/div[2]/div/div[1]/div[2]/div[2]/div/div[2]/div/div/button/span')
     accept_button.click()
     
-    # Odota 2 sekuntia
+    # Wait for 2 seconds
     time.sleep(2)
     
-    # Paina "Seuraava" -painiketta
+    # Click the "Next" button
     next_button4 = browser.find_element_by_xpath('//*[@id="view_container"]/form/div[2]/div/div[1]/div[2]/div[2]/div/div[2]/div/div/button/span')
     next_button4.click()
     
-    # Odota 2 sekuntia
+    # Wait for 2 seconds
     time.sleep(2)
     
-    # Paina "Valmis" -painiketta
+    # Click the "Done" button
     done_button = browser.find_element_by_xpath('//*[@id="view_container"]/form/div[2]/div/div[1]/div[2]/div[2]/div/div[2]/div/div/button/span')
     done_button.click()
     
-    # Odota 2 sekuntia
+    # Wait for 2 seconds
     time.sleep(2)
     
-    # Avaa uusi välilehti
+    # Open a new tab
     browser.execute_script("window.open('https://www.google.com/')")
     
-# Sulje selain
+# Close the browser
 browser.quit()
