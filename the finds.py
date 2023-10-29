@@ -1,36 +1,17 @@
 import re
 
-def find_gmails_by_name(name, last_name):
-    # Validate name and last name inputs
-    if not name or not last_name:
-        raise ValueError("Name and last name cannot be empty.")
-
-    # Construct the Gmail address pattern
-    pattern = r"{}\.{}@gmail\.com".format(name.lower(), last_name.lower())
-
-    # Search for Gmail addresses
-    gmails = []
-    # You can replace this with your own list of Gmail addresses or use an API to search for Gmail addresses
-    gmail_list = ["john.doe@gmail.com", "jane.doe@gmail.com", "james.smith@gmail.com"]
-
-    for gmail in gmail_list:
-        if re.match(pattern, gmail, re.IGNORECASE):
-            gmails.append(gmail)
-
-    return gmails
-
-# Test the function
-try:
-    name = input("Enter the name: ")
-    last_name = input("Enter the last name: ")
-    found_gmails = find_gmails_by_name(name, last_name)
-    if found_gmails:
-        print("Found Gmail addresses:")
-        for gmail in found_gmails:
-            print(gmail)
-    else:
-        print("No Gmail addresses found.")
-except ValueError as e:
-    print("Error:", str(e))
-except Exception as e:
-    print("An error occurred:", str(e))
+def find_gmails(name, lastname):
+    email_regex = re.compile(r'[a-zA-Z0-9._%+-]+@gmail.com')
+    test_emails = ['test1@gmail.com', 'test2@gmail.com', 'test3@gmail.com']
+    full_name = name.lower() + '.' + lastname.lower()
+    possible_emails = [full_name + '@gmail.com', full_name + '1@gmail.com', full_name + '2@gmail.com']
+    valid_emails = []
+    for email in possible_emails:
+        if email_regex.match(email):
+            valid_emails.append(email)
+    print('Valid Gmails:')
+    for email in valid_emails:
+        print(email)
+    print('Test Gmails:')
+    for email in test_emails:
+        print(email)
