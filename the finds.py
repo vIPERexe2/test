@@ -5,7 +5,8 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 
 # Define the browser
-browser = webdriver.Chrome()
+browser = chrome_driver_path = '/path/to/chromedriver'  # Replace with the actual path to the Chrome driver
+browser = webdriver.Chrome(executable_path=chrome_driver_path)
 
 # Open the Google website
 browser.get('https://accounts.google.com/signup/v2/webcreateaccount?hl=en&flowName=GlifWebSignIn&flowEntry=SignUp')
