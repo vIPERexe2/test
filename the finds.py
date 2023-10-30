@@ -1,22 +1,21 @@
+from selenium import webdriver
 import random
 import string
 import time
-from selenium import webdriver
-from selenium.webdriver.common.keys import Keys
 
 def generate_email():
     letters = string.ascii_lowercase
-    email = ''.join(random.choice(letters) for i in range(10))
+    email = ''.join(random.choice(letters) for _ in range(10))
     email += "@gmail.com"
     return email
 
 def generate_password():
     letters = string.ascii_letters + string.digits + string.punctuation
-    password = ''.join(random.choice(letters) for i in range(15))
+    password = ''.join(random.choice(letters) for _ in range(15))
     return password
 
 def create_google_account():
-    driver = webdriver.Chrome()
+    driver = webdriver.Chrome(executable_path='/data/data/com.termux/files/usr/lib/chromium/chromedriver')
     driver.get("https://accounts.google.com/signup")
 
     time.sleep(2)
