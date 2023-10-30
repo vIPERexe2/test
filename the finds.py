@@ -1,36 +1,37 @@
+# Importing the necessary libraries
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
-from selenium.common.exceptions import NoSuchElementException
+from selenium.webdriver.chrome.options import Options
 
-try:
-    # Set up the webdriver
-    driver = webdriver.Chrome()
+# Setting up the Chrome options
+chrome_options = Options()
+chrome_options.add_argument("--headless")  # Run Chrome in headless mode
 
-    # Open the Gmail signup page
-    driver.get("https://accounts.google.com/signup")
+# Setting up the Chrome driver
+driver = webdriver.Chrome(options=chrome_options)
 
-    # Fill in the required information
-    first_name = driver.find_element_by_id("firstName")
-    first_name.send_keys("John")
+# Opening the Gmail signup page
+driver.get("https://accounts.google.com/signup")
 
-    last_name = driver.find_element_by_id("lastName")
-    last_name.send_keys("Doe")
+# Filling in the required information
+first_name = driver.find_element_by_id("firstName")
+first_name.send_keys("John")
 
-    username = driver.find_element_by_id("username")
-    username.send_keys("johndoe123")
+last_name = driver.find_element_by_id("lastName")
+last_name.send_keys("Doe")
 
-    password = driver.find_element_by_name("Passwd")
-    password.send_keys("password123")
+username = driver.find_element_by_id("username")
+username.send_keys("johndoe123")
 
-    confirm_password = driver.find_element_by_name("ConfirmPasswd")
-    confirm_password.send_keys("password123")
+password = driver.find_element_by_name("Passwd")
+password.send_keys("password123")
 
-    # Submit the form
-    confirm_password.send_keys(Keys.RETURN)
+confirm_password = driver.find_element_by_name("ConfirmPasswd")
+confirm_password.send_keys("password123")
 
-except NoSuchElementException as e:
-    print("Element not found:", e)
+# Submitting the form
+submit_button = driver.find_element_by_id("accountDetailsNext")
+submit_button.click()
 
-finally:
-    # Close the webdriver
-    driver.quit()
+# Closing the browser
+driver.quit()
