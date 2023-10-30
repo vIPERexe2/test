@@ -1,43 +1,25 @@
-from selenium import webdriver
-import random
-import string
-import time
+import subprocess
 
-def generate_email():
-    letters = string.ascii_lowercase
-    email = ''.join(random.choice(letters) for _ in range(10))
-    email += "@gmail.com"
-    return email
+def create_tor_proxy():
+    try:
+        # Start Tor service
+        subprocess.run(['tor'])
 
-def generate_password():
-    letters = string.ascii_letters + string.digits + string.punctuation
-    password = ''.join(random.choice(letters) for _ in range(15))
-    return password
+        # Get Tor proxy information
+        output = subprocess.check_output(['tor', '--socks5-hostname', '--quiet'])
 
-def create_google_account():
-    driver = webdriver.Chrome(executable_path='/data/data/com.termux/files/usr/lib/chromium/chromedriver')
-    driver.get("https://accounts.google.com/signup")
+        # Extract proxy IP and port from output
+        proxy_info = output.decode().strip().split(':')
+        proxy_ip = proxy_info[0]
+        proxy_port = int(proxy_info[1])
 
-    time.sleep(2)
-    first_name = driver.find_element_by_name("firstName")
-    first_name.send_keys("Etunimi")
-    last_name = driver.find_element_by_name("lastName")
-    last_name.send_keys("Sukunimi")
-    email = driver.find_element_by_name("Username")
-    email.send_keys(generate_email())
-    password = driver.find_element_by_name("Passwd")
-    password.send_keys(generate_password())
-    confirm_password = driver.find_element_by_name("ConfirmPasswd")
-    confirm_password.send_keys(generate_password())
-    time.sleep(2)
+        # Print proxy information
+        print(f'Tor proxy created successfully:')
+        print(f'IP: {proxy_ip}')
+        print(f'Port: {proxy_port}')
 
-    submit_button = driver.find_element_by_id("accountDetailsNext")
-    submit_button.click()
-    time.sleep(2)
+    except subprocess.CalledProcessError:
+        print('Error creating Tor proxy.')
 
-    print("Sähköpostiosoite:", email.get_attribute("value"))
-    print("Salasana:", password.get_attribute("value"))
-
-    driver.quit()
-
-create_google_account()
+if __name__ == '__main__':
+    create_tor_proxy()
