@@ -5,7 +5,7 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 
 # Set up the browser
-browser = system/app/Chrome/Chrome.apk()
+browser = webdriver.Chrome()
 
 # Open the Google website
 browser.get('https://accounts.google.com/signup/v2/webcreateaccount?hl=en&flowName=GlifWebSignIn&flowEntry=SignUp')
@@ -23,7 +23,7 @@ for i in range(email_count):
     last_name.send_keys(''.join(random.choices(string.ascii_lowercase, k=5)))
     
     # Enter the username
-    username = browser.find_element_by_name('Username')
+    username = browser.find_element_by_name('username')
     username.send_keys(''.join(random.choices(string.ascii_lowercase, k=5)))
     
     # Enter the password
