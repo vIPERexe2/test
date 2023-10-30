@@ -1,40 +1,48 @@
+import random
+import string
+import time
 from selenium import webdriver
-from selenium.webdriver.common.by import By
-from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.common.keys import Keys
 
-def fill_signup_form(first_name, last_name, username, password):
-    # Setting up the Chrome options
-    chrome_options = Options()
-    chrome_options.add_argument("--headless")  # Run Chrome in headless mode
+# Luo satunnaisen sähköpostiosoitteen
+def generate_email():
+    letters = string.ascii_lowercase
+    email = ''.join(random.choice(letters) for i in range(10))
+    email += "@gmail.com"
+    return email
 
-    # Setting up the Chrome driver
-    driver = webdriver.Chrome(options=chrome_options)
+# Luo satunnaisen salasanan
+def generate_password():
+    letters = string.ascii_letters + string.digits + string.punctuation
+    password = ''.join(random.choice(letters) for i in range(15))
+    return password
 
-    # Opening the Gmail signup page
-    driver.get("https://accounts.google.com/signup")
+# Avaa selainikkunan
+driver = webdriver.Chrome()
+driver.get("https://accounts.google.com/signup")
 
-    # Filling in the required information
-    first_name_input = driver.find_element(By.ID, "firstName")
-    first_name_input.send_keys(first_name)
+# Täytä lomake
+time.sleep(2)
+first_name = driver.find_element_by_name("firstName")
+first_name.send_keys("Etunimi")
+last_name = driver.find_element_by_name("lastName")
+last_name.send_keys("Sukunimi")
+email = driver.find_element_by_name("Username")
+email.send_keys(generate_email())
+password = driver.find_element_by_name("Passwd")
+password.send_keys(generate_password())
+confirm_password = driver.find_element_by_name("ConfirmPasswd")
+confirm_password.send_keys(generate_password())
+time.sleep(2)
 
-    last_name_input = driver.find_element(By.ID, "lastName")
-    last_name_input.send_keys(last_name)
+# Lähetä lomake
+submit_button = driver.find_element_by_id("accountDetailsNext")
+submit_button.click()
+time.sleep(2)
 
-    username_input = driver.find_element(By.ID, "username")
-    username_input.send_keys(username)
+# Näytä käyttäjän sähköpostiosoite ja salasana
+print("Sähköpostiosoite:", email.get_attribute("value"))
+print("Salasana:", password.get_attribute("value"))
 
-    password_input = driver.find_element(By.NAME, "Passwd")
-    password_input.send_keys(password)
-
-    confirm_password_input = driver.find_element(By.NAME, "ConfirmPasswd")
-    confirm_password_input.send_keys(password)
-
-    # Submitting the form
-    submit_button = driver.find_element(By.ID, "accountDetailsNext")
-    submit_button.click()
-
-    # Closing the browser
-    driver.quit()
-
-# Example usage
-fill_signup_form("John", "Doe", "johndoe123", "password123")
+# Sulje selainikkuna
+driver.quit()
