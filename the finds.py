@@ -8,7 +8,8 @@ from selenium.webdriver.common.keys import Keys
 browser = webdriver.Chrome()
 
 # Open the Google website
-browser.get('https://accounts.google.com/signup/v2/webcreateaccount?hl=en&flowName=GlifWebSignIn&flowEntry=SignUp')
+chrome_driver_path = 'com.android.chrome/'  # Replace with the actual path to the Chrome driver
+browser = webdriver.Chrome(executable_path=chrome_driver_path)
 
 # Enter the desired number of email addresses
 email_count = int(input("How many email addresses do you want to create? "))
