@@ -4,12 +4,12 @@ import time
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 
-# Set up the browser
-chrome_driver_path = 'com.android.chrome/'  # Replace with the actual path to the Chrome driver
-browser = webdriver.Chrome(executable_path=chrome_driver_path)
+# Set up the Chrome driver options
+chrome_options = webdriver.ChromeOptions()
+chrome_options.binary_location = 'com.android.chrome/'  # Replace with the actual path to the Chrome binary
 
-# Open the Google website
-browser.get('https://www.google.com/')
+# Set up the browser
+browser = webdriver.Chrome(options=chrome_options)
 
 # Enter the desired number of email addresses
 email_count = int(input("How many email addresses do you want to create? "))
