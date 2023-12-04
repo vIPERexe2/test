@@ -24,7 +24,10 @@ def try_login_with_passwords(username, password_file):
         password = password.strip()
         login(username, password)
 
-username = "your_username"
-password_file = "passwords.txt"
+def main():
+    username = input("Enter your username: ")
+    password_file = "passwords.txt"
+    try_login_with_passwords(username, password_file)
 
-try_login_with_passwords(username, password_file)
+if __name__ == "__main__":
+    main()
